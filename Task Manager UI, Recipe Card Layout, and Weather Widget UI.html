@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Projects</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+
+    body {
+      background-color: #f3f4f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      min-height: 100vh;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 40px;
+      text-shadow: 1px 1px 2px #bbb;
+    }
+
+    .section {
+      margin-bottom: 60px;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    /* Task Manager Styles */
+    .container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      margin: 20px auto;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .container h2 {
+      color: #333;
+    }
+
+    .container input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .container ul {
+      list-style: none;
+    }
+
+    .container li {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .complete {
+      color: green;
+      cursor: pointer;
+    }
+
+    .delete {
+      color: red;
+      cursor: pointer;
+    }
+
+    /* Recipe Card Styles */
+    .card {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 300px;
+      margin: 20px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      text-align: center;
+      display: inline-block;
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card h3 {
+      padding: 15px;
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .card .ingredients {
+      padding: 15px;
+      background-color: #f2f2f2;
+    }
+
+    .card .ingredients li {
+      margin-bottom: 10px;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    /* Weather Widget Styles */
+    .weather-widget {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 350px;
+      text-align: center;
+      margin: 20px auto;
+    }
+
+    .weather-widget input[type="text"] {
+      width: 80%;
+      padding: 8px;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .weather-info {
+      font-size: 20px;
+      margin-top: 10px;
+    }
+
+    .temperature {
+      font-size: 40px;
+      color: #ff5722;
+    }
+
+    .condition {
+      font-size: 18px;
+      color: #00796b;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Interactive Web Projects</h1>
+
+  <!-- Task Manager Section -->
+  <div class="section">
+    <div class="container">
+      <h2>Task Manager</h2>
+      <input type="text" id="taskInput" placeholder="Enter new task" />
+      <ul id="taskList"></ul>
+    </div>
+  </div>
+
+  <!-- Recipe Card Section -->
+  <div class="section">
+    <h2>Recipe Cards</h2>
+    <div class="card">
+      <img src="https://www.cookingclassy.com/wp-content/uploads/2020/04/spaghetti-bolognese-16.jpg" alt="Spaghetti Bolognese">
+      <h3>Spaghetti Bolognese</h3>
+      <ul class="ingredients">
+        <li>Spaghetti</li>
+        <li>Ground Beef</li>
+        <li>Tomato Sauce</li>
+        <li>Onion</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <img src="https://www.recipetineats.com/wp-content/uploads/2020/04/Chicken-Curry_7.jpg" alt="Chicken Curry">
+      <h3>Chicken Curry</h3>
+      <ul class="ingredients">
+        <li>Chicken</li>
+        <li>Curry Powder</li>
+        <li>Coconut Milk</li>
+        <li>Garlic</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Weather Widget Section -->
+  <div class="section">
+    <h2>Weather Widget</h2>
+    <div class="weather-widget">
+      <h3>Weather Widget</h3>
+      <input type="text" id="city" placeholder="Enter city" onkeyup="showWeather()" />
+      <div class="weather-info">
+        <p class="temperature" id="temperature">--°C</p>
+        <p class="condition" id="condition">--</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Task Manager Functionality
+    const taskInput = document.getElementById('taskInput');
+    const taskList = document.getElementById('taskList');
+
+    taskInput.addEventListener('keypress', function(event) {
+      if (event.key === 'Enter' && taskInput.value !== '') {
+        const taskText = taskInput.value;
+        const li = document.createElement('li');
+
+        li.innerHTML = `
+          <span>${taskText}</span>
+          <span class="complete">✔</span>
+          <span class="delete">✖</span>
+        `;
+
+        taskList.appendChild(li);
+        taskInput.value = '';
+
+        li.querySelector('.complete').addEventListener('click', function() {
+          li.querySelector('span').style.textDecoration = 'line-through';
+        });
+
+        li.querySelector('.delete').addEventListener('click', function() {
+          taskList.removeChild(li);
+        });
+      }
+    });
+
+    // Weather Widget Functionality
+    function showWeather() {
+      const city = document.getElementById('city').value;
+      const temp = document.getElementById('temperature');
+      const condition = document.getElementById('condition');
+
+      if (city.toLowerCase() === 'london') {
+        temp.textContent = '15°C';
+        condition.textContent = 'Cloudy';
+      } else if (city.toLowerCase() === 'paris') {
+        temp.textContent = '18°C';
+        condition.textContent = 'Clear';
+      } else {
+        temp.textContent = '--°C';
+        condition.textContent = '--';
+      }
+    }
+  </script>
+
+</body>
+</html>
